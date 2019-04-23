@@ -250,7 +250,8 @@ function start_all_things {
 
 function go_launchchrome {
     write-host ("-.. . -... ..- --.DEBUG: The name of this function is: {0} " -f $MyInvocation.MyCommand)
-    Start-Process "chrome.exe" "$hostname:8080"
+    Start-Sleep -s 10
+    Start "http://$hostname:8080"
 
 }
 
