@@ -350,4 +350,5 @@ Typefi auditing block, end. It should be part of every script.
 #>
 Write-Host "-.. . -... ..- --.DEBUG : Arrived at the end!"
 Stop-Transcript
+
 exit 0
