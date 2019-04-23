@@ -1,6 +1,5 @@
-set a=%CD%
-set b=^\
-set c=typefi_installer.ps1
-set script=%a%%b%%c%
+set a=%~dp0
+set b=typefi_installer.ps1
+set script=%a%%b%
 echo %script%
 powershell %script%
