@@ -228,9 +228,8 @@ function go_demos {
     write-Host ("-.. . -... ..- --.DEBUG: The name of this function is: {0} " -f $MyInvocation.MyCommand)
     $fs_path = "$typefi\Filestore.properties"
     $fs_values = Get-Content $fs_path | Out-String | ConvertFrom-StringData
-    $fs_values.FILESTORE_LOC
-
-    Copy-Item "$PSScriptRoot\bin\typefi_demos\*" $fs_values.FILESTORE_LOC -Verbose
+    $dest = "$($fs_values.FILESTORE_LOC)"
+    Copy-Item "$PSScriptRoot\bin\typefi_demos\*" -Destination $dest -Verbose -Recurse -Force
     
 }
 
