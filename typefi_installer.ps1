@@ -15,7 +15,7 @@ Typefi auditing block. It should be part of every script.
 $PSVersionTable.PSVersion
 $ErrorActionPreference = "Continue"
 $global:currentfile = $MyInvocation.MyCommand.Name #you can use Path to get the full path.
-$global:logfile = "c:\ops\logs\$currentfile.txt" #this is where we keep our stuff.
+$global:logfile = "$PSScriptRoot\$currentfile.txt" #this is where we keep our stuff.
 Start-Transcript -Path $logfile
 Write-Host "-.. . -... ..- --.DEBUG Callsign: ALPHA"
 Write-Host "-.. . -... ..- --.DEBUG Logfile:" $logfile
@@ -24,7 +24,7 @@ Write-Host "-.. . -... ..- --.DEBUG Logfile:" $logfile
 GLOBALS
 #>
 $global:hostname = $env:COMPUTERNAME
-
+$global:typefi = "c:\ProgramData\Typefi"
 <#
 FUNCTIONS
 #>
@@ -172,7 +172,8 @@ function go_server {
 
 function go_override_config {
     write-host ("-.. . -... ..- --.DEBUG: The name of this function is: {0} " -f $MyInvocation.MyCommand)
-   
+    Copy-Item "$PSScriptRoot\bin\typefi_config\*.*" -Destination "$typefi" -Verbose -Recurse -Force
+
 
 }
 
@@ -211,7 +212,7 @@ function go_plugins {
     }
 
     Get-ChildItem -Path $PSScriptRoot\staging | Rename-Item -NewName { $_.Name -replace '%23','#' }
-    Copy-Item "$PSScriptRoot\staging\*.war" -Destination "$PAYLOAD\Typefi\Server\webapps" -Verbose
+    Copy-Item "$PSScriptRoot\staging\*.war" -Destination "$PAYLOAD\Typefi\Server\webapps" -Verbose -Recurse -ErrorAction Continue
 
 }
 
@@ -225,12 +226,11 @@ function go_mathtools{
 
 function go_demos {
     write-Host ("-.. . -... ..- --.DEBUG: The name of this function is: {0} " -f $MyInvocation.MyCommand)
-    $typefi = "c:\ProgramData\Typefi"
     $fs_path = "$typefi\Filestore.properties"
     $fs_values = Get-Content $fs_path | Out-String | ConvertFrom-StringData
     $fs_values.FILESTORE_LOC
 
-    Copy-Item "$PSScriptRoot\bin\typefi_demos\*" -Destinaton $fs_values.FILESTORE_LOC -Verbose
+    Copy-Item "$PSScriptRoot\bin\typefi_demos\*" $fs_values.FILESTORE_LOC -Verbose
     
 }
 
@@ -288,6 +288,10 @@ If ($($system.distraction) -eq "true") {
 If ($($system.server) -eq "true") {
     go_server
 
+} 
+
+If ($($system.override_config) -eq "true") {
+    go_override_config
 } 
 
 If ($($system.plugins) -eq "true") {
