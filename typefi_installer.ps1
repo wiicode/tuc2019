@@ -167,7 +167,7 @@ function go_server {
     $installer =  "$PSScriptRoot\staging\$($manifest.server)"
     $arguments = "APPDIR=$payload\Typefi /qn /l*v $installer_log"
     Start-Process $installer -ArgumentList $arguments -Verb runAs -Wait
-    Set-Service -Name TypefiTomcat -Computer $hostname -StartupType "selectedType"
+    Set-Service -Name TypefiTomcat -Computer $hostname -StartupType "Automatic"
 }
 
 function go_override_config {
