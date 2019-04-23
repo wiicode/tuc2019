@@ -11,7 +11,7 @@ This script collects the following information into a single text file.
 $PSVersionTable.PSVersion
 $ErrorActionPreference = "Continue"
 $global:currentfile = $MyInvocation.MyCommand.Path
-$global:logfile = "$currentfile.txt"
+$global:logfile = "$PSScriptRoot\$currentfile.txt"
 $global:typefi = "c:\ProgramData\Typefi"
 <#
 -----
@@ -64,8 +64,6 @@ foreach ($idsVer in $idsVersions) {
            $global:ids_path_dir = Split-Path -Path $ids_path_exe
            $global:idsYYYY = $ids_path_dir.substring($ids_path_dir.length - 4)
            $ids_exe_version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$ids_path_exe").FileVersion
-           #Get size of Adobe Font folder, manifest retrieval is not reliable
-           $ids_fontsize = "{0:N2} MB" -f ((Get-ChildItem $ids_path_dir\Fonts -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)
 
            Write-Host " "
            Write-Host " ---------------------               --------------------- "
@@ -86,8 +84,13 @@ foreach ($idsVer in $idsVersions) {
            Write-Host " "
            Write-Host " ---------------------               --------------------- "
            Write-Host " "
-           Write-Host "-t-> InDesign Server Fonts are:" $ids_fontsize
-           Get-ChildItem $ids_path_dir\Fonts -File | Format-Table Name, LastWriteTime
+           $fonts = "$ids_path_dir\Fonts"
+           If (Test-Path $fonts) {
+              #Get size of Adobe Font folder, manifest retrieval is not reliable
+              $ids_fontsize = "{0:N2} MB" -f ((Get-ChildItem $ids_path_dir\Fonts -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)
+              Write-Host "-t-> InDesign Server Fonts are:" $ids_fontsize
+              Get-ChildItem $ids_path_dir\Fonts -File | Format-Table Name, LastWriteTime
+            }
            Write-Host " "
            Write-Host " ---------------------               --------------------- "
            Write-Host " "
