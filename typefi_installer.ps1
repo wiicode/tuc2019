@@ -47,7 +47,7 @@ function setWorkingVolume {
     {
       $global:payload = "D:\PAYLOAD"
     }
-  ElseIf ($testVolumeC -eq $True)
+  If ($testVolumeC -eq $True)
     {
       $global:payload = "C:\PAYLOAD"
     }
@@ -274,7 +274,7 @@ read_manifest
 read_manifest_plugins
 <#
 
-Elseif ($($system.property) -eq "true") {
+If ($($system.property) -eq "true") {
 
 }
 
@@ -284,45 +284,45 @@ If ($($system.distraction) -eq "true") {
     go_distraction
 }
 
-Elseif ($($system.server) -eq "true") {
+If ($($system.server) -eq "true") {
     go_server
 
 } 
 
-Elseif ($($system.plugins) -eq "true") {
+If ($($system.plugins) -eq "true") {
     go_plugins
 
 } 
 
-Elseif ($($system.designer) -eq "true") {
+If ($($system.designer) -eq "true") {
     go_designer
 
 } 
 
-Elseif ($($system.typefitter) -eq "true") {
+If ($($system.typefitter) -eq "true") {
     go_typefitter
 
 } 
 
-Elseif ($($system.mathtools) -eq "true") {
+If ($($system.mathtools) -eq "true") {
     go_mathtools
 
 } 
 
-Elseif ($($system.startup) -eq "true") {
+If ($($system.startup) -eq "true") {
     start_all_things
 } 
 
-Elseif ($($system.demos) -eq "true") {
+If ($($system.demos) -eq "true") {
     go_demos
 } 
 
-Elseif ($($system.harvest) -eq "true") {
+If ($($system.harvest) -eq "true") {
     go_harvest
 
 } 
 
-Elseif ($($system.launchchrome) -eq "true") {
+If ($($system.launchchrome) -eq "true") {
     go_launchchrome
 
 } 
