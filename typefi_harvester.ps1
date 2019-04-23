@@ -11,7 +11,7 @@ This script collects the following information into a single text file.
 $PSVersionTable.PSVersion
 $ErrorActionPreference = "Continue"
 $global:currentfile = $MyInvocation.MyCommand.Path
-$global:logfile = "$PSScriptRoot\$currentfile.txt"
+$global:logfile = "$currentfile.txt"
 $global:typefi = "c:\ProgramData\Typefi"
 <#
 -----
