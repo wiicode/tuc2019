@@ -82,10 +82,10 @@ function read_manifest {
 function read_manifest_plugins {
     write-host ("-.. . -... ..- --.DEBUG: The name of this function is: {0} " -f $MyInvocation.MyCommand)
     ((Get-Content -path $PSScriptRoot/conf/plugins_install.txt) -replace '#','%23') | Set-Content -Path $PSScriptRoot/conf/plugins_install.txt
-    [string[]]$global:manifest_plugins= get-content -Path $PSScriptRoot/conf/plugins_install.txt 
+    [string[]]$global:manifest_plugins= get-content -Path $PSScriptRoot/conf/plugins_install.txt
     $manifest_plugins
     ((Get-Content -path $PSScriptRoot/conf/plugins_install.txt) -replace '%23','#') | Set-Content -Path $PSScriptRoot/conf/plugins_install.txt
-    [string[]]$global:manifest_plugins_original = get-content -Path $PSScriptRoot/conf/plugins_install.txt 
+    [string[]]$global:manifest_plugins_original = get-content -Path $PSScriptRoot/conf/plugins_install.txt
     $manifest_plugins_original
 }
 
