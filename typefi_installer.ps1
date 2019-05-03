@@ -160,14 +160,30 @@ function go_distraction {
 
 function go_server {
     write-host ("-.. . -... ..- --.DEBUG: The name of this function is: {0} " -f $MyInvocation.MyCommand)
-    service-stop "TypefiTomcat"
-    write-host "-.. . -... ..- --.DEBUG: $($manifest.server)"
-    ftp_file $manifest.server "Typefi__Server for Workgroup"
-    $installer_log = "$PSScriptRoot\logs\bootstrap_typefi_workgroup_install.txt"
-    $installer =  "$PSScriptRoot\staging\$($manifest.server)"
-    $arguments = "APPDIR=$payload\Typefi /qn /l*v $installer_log"
-    Start-Process $installer -ArgumentList $arguments -Verb runAs -Wait
-    Set-Service -Name TypefiTomcat -Computer $hostname -StartupType "Automatic"
+
+    If (test-path $typefi) {
+
+        service-stop "TypefiTomcat"
+        write-host "-.. . -... ..- --.DEBUG: $($manifest.server)"
+        ftp_file $manifest.server "Typefi__Server for Workgroup"
+        $installer_log = "$PSScriptRoot\logs\bootstrap_typefi_workgroup_upgrade.txt"
+        $installer =  "$PSScriptRoot\staging\$($manifest.server)"
+        $arguments = "/qn /l*v $installer_log"
+        Start-Process $installer -ArgumentList $arguments -Verb runAs -Wait
+    }
+
+    else {
+
+        service-stop "TypefiTomcat"
+        write-host "-.. . -... ..- --.DEBUG: $($manifest.server)"
+        ftp_file $manifest.server "Typefi__Server for Workgroup"
+        $installer_log = "$PSScriptRoot\logs\bootstrap_typefi_workgroup_install.txt"
+        $installer =  "$PSScriptRoot\staging\$($manifest.server)"
+        $arguments = "APPDIR=$payload\Typefi /qn /l*v $installer_log"
+        Start-Process $installer -ArgumentList $arguments -Verb runAs -Wait
+        Set-Service -Name TypefiTomcat -Computer $hostname -StartupType "Automatic"
+    }
+   
 }
 
 function go_override_config {
