@@ -1,4 +1,3 @@
-# Written by Karl Jankowski
 <#
 Created to deploy hotfix https://helpx.adobe.com/indesign/kb/search-issue-in-long-documents.html
 http://download.adobe.com/pub/adobe/indesign/win/CopyPlugin.zip
